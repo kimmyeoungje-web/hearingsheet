@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NX Korea Warehouse Operation Inquiry Form</title>
+  <style>
+    :root{
+      --nx-green:#7AC143;
+      --nx-green-dark:#5da72e;
+      --nx-navy:#17324D;
+      --slate-950:#020617;
+      --slate-900:#0f172a;
+      --slate-800:#1e293b;
+      --slate-700:#334155;
+      --slate-600:#475569;
+      --slate-500:#64748b;
+      --slate-300:#cbd5e1;
+      --slate-200:#e2e8f0;
+      --slate-100:#f1f5f9;
+      --slate-50:#f8fafc;
+      --white:#ffffff;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,'Noto Sans KR','Malgun Gothic',sans-serif;background:linear-gradient(180deg,var(--slate-50),#fff,#f7fff1);color:var(--slate-900)}
+    a{color:inherit;text-decoration:none}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--slate-200)}
+    .topbar-inner{max-width:1240px;margin:0 auto;padding:16px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:52px;height:52px;border-radius:18px;background:var(--nx-green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:21px;box-shadow:var(--shadow)}
+    .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--nx-green-dark);font-weight:800;margin:0 0 3px}
+    h1{font-size:22px;margin:0;color:var(--slate-950)}
+    .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--slate-200);background:#fff;border-radius:999px;padding:10px 14px;font-size:14px;font-weight:700;box-shadow:0 3px 12px rgba(15,23,42,.04)}
+    .pill:hover{border-color:var(--nx-green)}
+    select{border:none;background:transparent;font-weight:800;outline:none;color:var(--slate-700)}
+    .layout{max-width:1240px;margin:0 auto;padding:30px 20px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px}
+    .hero{background:var(--slate-950);color:#fff;border-radius:34px;padding:34px;box-shadow:0 18px 45px rgba(2,6,23,.18)}
+    .hero .tag{color:#b7f77d;letter-spacing:.25em;text-transform:uppercase;font-size:13px;font-weight:900;margin:0 0 14px}
+    .hero h2{font-size:38px;line-height:1.15;margin:0;max-width:880px}
+    .hero p{color:#cbd5e1;line-height:1.75;max-width:850px;margin:18px 0 0}
+    .stack{display:grid;gap:22px}
+    .card{background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .card-head{display:flex;align-items:center;gap:12px;background:var(--slate-50);border-bottom:1px solid var(--slate-100);padding:18px 22px}
+    .icon{width:36px;height:36px;border-radius:14px;background:#fff;color:var(--nx-green-dark);display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 2px 12px rgba(15,23,42,.06)}
+    .card h3{margin:0;font-size:18px;color:var(--slate-950)}
+    .card-body{padding:22px;display:grid;gap:18px}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .field{display:grid;gap:8px}
+    label{font-size:14px;font-weight:800;color:var(--slate-800)}
+    .req{display:inline-block;margin-left:7px;padding:2px 8px;border-radius:999px;background:#ecfccb;color:#4d7c0f;font-size:10px;font-weight:900;vertical-align:middle}
+    input[type="text"],input[type="email"],input[type="tel"],input[type="number"],textarea{width:100%;border:1px solid var(--slate-200);border-radius:14px;padding:13px 14px;font-size:14px;outline:none;background:#fff;color:var(--slate-900)}
+    textarea{min-height:104px;resize:vertical;line-height:1.6}
+    input:focus,textarea:focus{border-color:var(--nx-green);box-shadow:0 0 0 4px rgba(122,193,67,.15)}
+    .checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+    .check{display:flex;align-items:center;gap:8px;border:1px solid var(--slate-200);border-radius:14px;padding:10px 11px;font-size:13px;color:var(--slate-700);background:#fff;cursor:pointer;user-select:none;min-height:43px}
+    .check:hover{border-color:var(--nx-green)}
+    .check input{accent-color:var(--nx-green);width:16px;height:16px;flex:0 0 auto}
+    .upload-box{border:1.8px dashed var(--slate-300);background:var(--slate-50);border-radius:20px;padding:20px}
+    .upload-box input[type="file"]{width:100%;font-size:14px;color:var(--slate-600)}
+    .upload-help{font-size:12px;color:var(--slate-500);line-height:1.65;margin:12px 0 0}
+    .file-list{display:none;margin-top:12px;background:#fff;border:1px solid var(--slate-200);border-radius:14px;padding:12px;font-size:12px;color:var(--slate-700);line-height:1.65}
+    aside{position:sticky;top:96px;align-self:start;display:grid;gap:16px}
+    .progress-card{padding:22px}
+    .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .progress-row b{font-size:16px}.progress-row span{font-size:28px;color:var(--nx-green-dark);font-weight:900}
+    .bar{height:12px;background:var(--slate-100);border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--nx-green);border-radius:999px;transition:.2s}
+    .note{margin-top:16px;background:#f0fdf4;color:var(--slate-700);border-radius:18px;padding:14px;font-size:13px;line-height:1.7}
+    .buttons{display:grid;gap:9px;padding:14px}
+    button{border:0;border-radius:16px;padding:14px 15px;font-weight:900;cursor:pointer;font-size:14px}
+    .primary{background:var(--slate-950);color:#fff}.primary:hover{background:#1e293b}
+    .secondary{background:#fff;color:var(--slate-800);border:1px solid var(--slate-200)}.secondary:hover{border-color:var(--nx-green)}
+    .ghost{background:transparent;color:var(--slate-600)}
+    .tip{font-size:12px;line-height:1.7;color:var(--slate-500);padding:18px}.tip b{color:var(--slate-700)}
+    .hide{display:none!important}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}aside{position:static}.checks{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h2{font-size:30px}}
+    @media(max-width:620px){.grid2{grid-template-columns:1fr}.checks{grid-template-columns:1fr}.hero{padding:24px}.hero h2{font-size:25px}.topbar-inner{align-items:flex-start}.top-actions{width:100%}.pill{width:100%;justify-content:center}}
+    @media print{.topbar,aside,.no-print{display:none!important}.layout{display:block;padding:0}.hero{background:#fff;color:#000;box-shadow:none;border:1px solid #ddd}.hero p{color:#333}.card{box-shadow:none;break-inside:avoid;margin:14px 0}.card-head{background:#fff}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo">NX</div>
+        <div>
+          <p class="eyebrow">NIPPON EXPRESS KOREA</p>
+          <h1 data-i18n="title">Warehouse Operation Inquiry</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <a class="pill" href="https://www.nipponexpress.com/kr/ko/" target="_blank" rel="noreferrer">🏢 <span data-i18n="nxKorea">NX Korea 공식 홈페이지</span></a>
+        <a class="pill" href="https://www.nipponexpress.com/" target="_blank" rel="noreferrer">🌐 <span data-i18n="nxGlobal">NX Global 공식 홈페이지</span></a>
+        <span class="pill">🌏 <select id="lang"><option value="ko">KR</option><option value="en">EN</option><option value="ja">JP</option></select></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="stack">
+      <section class="hero">
+        <p class="tag">3PL Warehouse Hearing Sheet</p>
+        <h2 data-i18n="subtitle">물류센터 운영 · 보관 · 입출고 · 운송 위탁 상담 접수</h2>
+        <p data-i18n="desc">고객사의 위탁 범위, 화물 특성, 창고 조건, 입출고 작업, 운송 요건을 한 번에 확인하기 위한 웹 기반 히어링 시트입니다.</p>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">01</div><h3 data-i18n="secBasic">기본정보</h3></div>
+        <div class="card-body grid2">
+          <div class="field"><label><span data-i18n="company">회사명</span><span class="req">필수</span></label><input type="text" id="company" data-required></div>
+          <div class="field"><label><span data-i18n="industry">업종</span><span class="req">필수</span></label><input type="text" id="industry" data-required></div>
+          <div class="field"><label><span data-i18n="address">소재지</span><span class="req">필수</span></label><input type="text" id="address" data-required></div>
+          <div class="field"><label data-i18n="staff">사원수</label><input type="number" id="staff" min="0"></div>
+          <div class="field"><label><span data-i18n="pic">담당자 성함/직함</span><span class="req">필수</span></label><input type="text" id="pic" data-required></div>
+          <div class="field"><label><span data-i18n="phone">연락처</span><span class="req">필수</span></label><input type="tel" id="phone" data-required></div>
+          <div class="field"><label><span data-i18n="email">메일주소</span><span class="req">필수</span></label><input type="email" id="email" data-required></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">02</div><h3 data-i18n="secPurpose">위탁 목적</h3></div>
+        <div class="card-body">
+          <div class="field"><label><span data-i18n="start">업무시행 희망시기</span><span class="req">필수</span></label><div class="checks" data-group="start" data-required-group></div></div>
+          <div class="field"><label><span data-i18n="purpose">업무 위탁 목적</span><span class="req">필수</span></label><div class="checks" data-group="purpose" data-required-group></div></div>
+          <div class="field"><label data-i18n="currentProvider">현 위탁업체명</label><input type="text" id="currentProvider"></div>
+          <div class="field"><label><span data-i18n="period">보관기간</span><span class="req">필수</span></label><div class="checks" data-group="period" data-required-group></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">03</div><h3 data-i18n="secCargo">화물정보</h3></div>
+        <div class="card-body">
+          <div class="field"><label><span data-i18n="cargoTypeLabel">화물 종류</span><span class="req">필수</span></label><div class="checks" data-group="cargoType" data-required-group></div></div>
+          <div class="field"><label data-i18n="productName">제품명/상세</label><textarea id="productName" placeholder="제품명, HS Code, SKU 수, 품목별 특이사항 등"></textarea></div>
+          <div class="field"><label><span data-i18n="cargoCharLabel">화물 특성</span><span class="req">필수</span></label><div class="checks" data-group="cargoChar" data-required-group></div></div>
+          <div class="grid2">
+            <div class="field"><label data-i18n="temp">보관온도</label><div class="checks" data-group="temp"></div></div>
+            <div class="field"><label data-i18n="humidity">습도</label><div class="checks" data-group="humidity"></div></div>
+          </div>
+          <div class="field">
+            <label data-i18n="cargoUpload">화물 사진·포장스펙 파일 업로드</label>
+            <div class="upload-box">
+              <input type="file" id="cargoFiles" multiple accept="image/*,.pdf,.xlsx,.xls,.doc,.docx,.ppt,.pptx,.txt,.csv" />
+              <p class="upload-help" data-i18n="uploadHelp">화물 사진, 포장스펙, MSDS, SOP, PLT 규격, 도면, 제품 사양서 등을 업로드해 주세요.</p>
+              <div class="file-list" id="fileList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">04</div><h3 data-i18n="secWarehouse">창고조건</h3></div>
+        <div class="card-body">
+          <div class="grid2">
+            <div class="field"><label><span data-i18n="area">필요 면적(보관+작업)</span><span class="req">필수</span></label><input type="text" id="area" placeholder="예: 300㎡ / 150PLT" data-required></div>
+            <div class="field"><label><span data-i18n="location">희망 위치</span><span class="req">필수</span></label><input type="text" id="location" placeholder="예: 수도권, 인천공항 인근, 부산항 인근" data-required></div>
+          </div>
+          <div class="field"><label data-i18n="facilities">필요시설·장비</label><div class="checks" data-group="facilities"></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">05</div><h3 data-i18n="secInbound">입고/보관/재고</h3></div>
+        <div class="card-body">
+          <div class="grid2">
+            <div class="field"><label data-i18n="importType">수입/입고 형태</label><div class="checks" data-group="importType"></div></div>
+            <div class="field"><label data-i18n="inboundFreq">입고 빈도</label><div class="checks" data-group="frequencyIn"></div></div>
+          </div>
+          <div class="field"><label data-i18n="inboundMode">창고 납입 방식</label><div class="checks" data-group="inboundMode"></div></div>
+          <div class="field"><label data-i18n="document">입고 서류 공유</label><div class="checks" data-group="document"></div></div>
+          <div class="field"><label data-i18n="packingUnit">입고형태</label><div class="checks" data-group="unit"></div></div>
+          <div class="field"><label data-i18n="packingInfo">포장상태·스펙</label><textarea id="packingInfo" placeholder="화물포장상태, 중량, 부피, 사이즈, PLT 규격 등"></textarea></div>
+          <div class="field"><label data-i18n="inspection">입고 검수</label><div class="checks" data-group="inspection"></div></div>
+          <div class="field"><label data-i18n="storage">보관 방식</label><div class="checks" data-group="storage"></div></div>
+          <div class="grid2">
+            <div class="field"><label data-i18n="inventory">재고관리</label><div class="checks" data-group="inventory"></div></div>
+            <div class="field"><label data-i18n="stocktaking">재고조사</label><div class="checks" data-group="stocktaking"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">06</div><h3 data-i18n="secOutbound">출고/운송</h3></div>
+        <div class="card-body">
+          <div class="grid2">
+            <div class="field"><label data-i18n="outboundFreq">출고 빈도</label><div class="checks" data-group="frequencyOut"></div></div>
+            <div class="field"><label data-i18n="outboundOrder">출고지시 방식</label><div class="checks" data-group="outboundOrder"></div></div>
+          </div>
+          <div class="field"><label data-i18n="outboundWork">출고작업</label><div class="checks" data-group="outboundWork"></div></div>
+          <div class="grid2">
+            <div class="field"><label data-i18n="deliveryCount">납입처 개수</label><input type="text" id="deliveryCount"></div>
+            <div class="field"><label data-i18n="deliveryAddress">납입처 주소</label><input type="text" id="deliveryAddress" placeholder="별도 파일 공유 가능"></div>
+          </div>
+          <div class="field"><label data-i18n="dispatch">배차/차량</label><div class="checks" data-group="dispatch"></div></div>
+          <div class="field"><label data-i18n="deliveryTerms">납입조건</label><div class="checks" data-group="deliveryTerms"></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><div class="icon">07</div><h3 data-i18n="secAdditional">추가요청</h3></div>
+        <div class="card-body">
+          <div class="field"><label data-i18n="requests">추가 요청사항</label><div class="checks" data-group="requests"></div></div>
+          <div class="field"><label data-i18n="remarks">비고</label><textarea id="remarks" placeholder="요청사항, 견적 전제조건, SLA, KPI, 시스템 연동, 보안요건 등"></textarea></div>
+        </div>
+      </section>
+    </div>
+
+    <aside>
+      <div class="card progress-card">
+        <div class="progress-row"><b>Completion</b><span id="completion">0%</span></div>
+        <div class="bar"><i id="bar"></i></div>
+        <div class="note" data-i18n="notes">※ 위험물은 UN No. / Class, 유해화학물은 MSDS 첨부가 필요합니다. 화물 사진, 포장상태, 품목별 중량·부피·사이즈 정보가 있으면 견적 정확도가 높아집니다.</div>
+      </div>
+      <div class="card buttons no-print">
+        <button class="primary" id="mailBtn" type="button">상담 요청서 작성 완료</button>
+        <button class="secondary" id="jsonBtn" type="button">JSON 다운로드</button>
+        <button class="secondary" onclick="window.print()" type="button">인쇄 / PDF 저장</button>
+        <button class="ghost" id="resetBtn" type="button">초기화</button>
+      </div>
+      <div class="card tip"><b>Internal use tip</b><br>견적 검토 전, 위험물/MSDS/온도대/입출고 빈도/작업 단위/납입처 수가 빠지지 않았는지 확인하세요.</div>
+    </aside>
+  </main>
+
+  <script>
+    const i18n = {
+      ko:{title:'Warehouse Operation Inquiry',nxKorea:'NX Korea 공식 홈페이지',nxGlobal:'NX Global 공식 홈페이지',subtitle:'물류센터 운영 · 보관 · 입출고 · 운송 위탁 상담 접수',desc:'고객사의 위탁 범위, 화물 특성, 창고 조건, 입출고 작업, 운송 요건을 한 번에 확인하기 위한 웹 기반 히어링 시트입니다.',secBasic:'기본정보',secPurpose:'위탁 목적',secCargo:'화물정보',secWarehouse:'창고조건',secInbound:'입고/보관/재고',secOutbound:'출고/운송',secAdditional:'추가요청',company:'회사명',industry:'업종',address:'소재지',staff:'사원수',pic:'담당자 성함/직함',phone:'연락처',email:'메일주소',start:'업무시행 희망시기',purpose:'업무 위탁 목적',currentProvider:'현 위탁업체명',period:'보관기간',cargoTypeLabel:'화물 종류',productName:'제품명/상세',cargoCharLabel:'화물 특성',temp:'보관온도',humidity:'습도',cargoUpload:'화물 사진·포장스펙 파일 업로드',uploadHelp:'화물 사진, 포장스펙, MSDS, SOP, PLT 규격, 도면, 제품 사양서 등을 업로드해 주세요.',area:'필요 면적(보관+작업)',location:'희망 위치',facilities:'필요시설·장비',importType:'수입/입고 형태',inboundFreq:'입고 빈도',inboundMode:'창고 납입 방식',document:'입고 서류 공유',packingUnit:'입고형태',packingInfo:'포장상태·스펙',inspection:'입고 검수',storage:'보관 방식',inventory:'재고관리',stocktaking:'재고조사',outboundFreq:'출고 빈도',outboundOrder:'출고지시 방식',outboundWork:'출고작업',deliveryCount:'납입처 개수',deliveryAddress:'납입처 주소',dispatch:'배차/차량',deliveryTerms:'납입조건',requests:'추가 요청사항',remarks:'비고',notes:'※ 위험물은 UN No. / Class, 유해화학물은 MSDS 첨부가 필요합니다. 화물 사진, 포장상태, 품목별 중량·부피·사이즈 정보가 있으면 견적 정확도가 높아집니다.'},
+      en:{title:'Warehouse Operation Inquiry',nxKorea:'NX Korea Official Website',nxGlobal:'NX Global Official Website',subtitle:'3PL warehousing · storage · inbound/outbound · transportation inquiry',desc:'A web-based hearing sheet to collect outsourcing scope, cargo characteristics, warehouse requirements, operation details and delivery conditions.',secBasic:'Basic Info',secPurpose:'Purpose',secCargo:'Cargo',secWarehouse:'Warehouse',secInbound:'Inbound / Inventory',secOutbound:'Outbound / Transport',secAdditional:'Additional',company:'Company Name',industry:'Industry',address:'Location / Address',staff:'Number of Staff',pic:'PIC Name / Title',phone:'Business Phone',email:'Business Email',start:'Start of Business',purpose:'Reason for Outsourcing',currentProvider:'Current Provider',period:'Storage Period',cargoTypeLabel:'Type of Cargo',productName:'Product Name / Details',cargoCharLabel:'Cargo Characteristics',temp:'Storage Temperature',humidity:'Humidity',cargoUpload:'Cargo Photo / Packing Specification File Upload',uploadHelp:'Upload cargo photos, packing specifications, MSDS, SOP, pallet dimensions, drawings, or product specifications.',area:'Required Area',location:'Preferred Location',facilities:'Essential Facilities / Equipment',importType:'Import / Inbound Form',inboundFreq:'Inbound Frequency',inboundMode:'Delivery to Warehouse',document:'Document Sharing',packingUnit:'Packaging Unit',packingInfo:'Packing Condition / Specification',inspection:'Inspection',storage:'Storage Method',inventory:'Inventory Management',stocktaking:'Stocktaking',outboundFreq:'Outbound Frequency',outboundOrder:'Outbound Order Method',outboundWork:'Outbound Work',deliveryCount:'Number of Delivery Points',deliveryAddress:'Delivery Address',dispatch:'Dispatch / Vehicle',deliveryTerms:'Delivery Terms',requests:'Additional Requests',remarks:'Remarks',notes:'※ Dangerous goods require UN No. / Class. Hazardous chemicals require MSDS. Cargo photos, packing condition, weight, volume and size improve quotation accuracy.'},
+      ja:{title:'倉庫業務ヒアリングシート',nxKorea:'NX Korea 公式サイト',nxGlobal:'NX Global 公式サイト',subtitle:'倉庫運営 · 保管 · 入出庫 · 配送委託の相談受付',desc:'業務委託範囲、貨物特性、倉庫条件、入出庫作業、配送要件を確認するためのWebヒアリングシートです。',secBasic:'基本情報',secPurpose:'委託目的',secCargo:'貨物情報',secWarehouse:'倉庫条件',secInbound:'入庫/在庫',secOutbound:'出庫/配送',secAdditional:'追加要望',company:'会社名',industry:'業種',address:'所在地',staff:'社員数',pic:'担当者名 / 役職',phone:'連絡先',email:'E-mailアドレス',start:'業務開始希望時期',purpose:'業務委託目的',currentProvider:'現行業者名',period:'保管期間',cargoTypeLabel:'貨物種類',productName:'製品名 / 詳細',cargoCharLabel:'貨物特性',temp:'保管温度',humidity:'湿度',cargoUpload:'貨物写真・梱包仕様ファイルアップロード',uploadHelp:'貨物写真、梱包仕様、MSDS、SOP、PLT規格、図面、製品仕様書などをアップロードしてください。',area:'必要面積',location:'希望立地',facilities:'必要設備',importType:'輸入 / 入庫形態',inboundFreq:'入庫頻度',inboundMode:'倉庫搬入時',document:'入庫書類',packingUnit:'入庫時荷姿',packingInfo:'梱包状態・仕様',inspection:'入庫時検品',storage:'保管方法',inventory:'在庫管理',stocktaking:'棚卸し',outboundFreq:'出庫頻度',outboundOrder:'出庫指示',outboundWork:'出庫作業',deliveryCount:'納入先数',deliveryAddress:'納入先住所',dispatch:'配送手配',deliveryTerms:'配送要件',requests:'リクエスト',remarks:'備考',notes:'※ 危険物はUN No. / Class、有害化学物質はMSDS添付が必要です。貨物写真、梱包状態、品目別重量・容積・サイズ情報があると見積精度が高まります。'}
+    };
+    const options = {
+      start:{ko:['즉시','3개월 이내','6개월 이내','기타'],en:['Promptly','Within 3 months','Within 6 months','Other'],ja:['即時','3ヶ月以内','6ヶ月以内','その他']},
+      purpose:{ko:['품질·서비스 향상','비용 절감','창고운영 효율화·전문성 향상','위탁업체 변경','기타'],en:['Improve service quality','Cost reduction','Operational efficiency / expertise','Change current 3PL provider','Other'],ja:['品質・サービス向上','コスト削減','倉庫運営の効率化・専門性向上','現行委託業者変更','その他']},
+      period:{ko:['SPOT','년 단위 계약','기타'],en:['Spot','Annual contract','Other'],ja:['SPOT','年単位契約','その他']},
+      cargoType:{ko:['자동차부품','반도체','의료기기','의약품','전자제품·기기·통신','의류','장비·플랜트','원료','식품','화장품','잡화','기타'],en:['Auto parts','Semiconductor','Medical equipment','Medication','Electronics / telecommunication','Apparel','Equipment / plant','Raw material','Food','Cosmetics','Accessories','Other'],ja:['自動車部品','半導体','医療機器','医薬品','電子製品・機器・通信','アパレル','設備・プラント','原料','食品','化粧品','雑貨','その他']},
+      cargoChar:{ko:['일반화물','보세화물','중량화물(1T 이상)','대형화물(2m 이상)','위험물','유해화학물','냉장','냉동','항온항습'],en:['General goods','Bonded goods','Heavy cargo over 1T','Oversized cargo over 2m','Dangerous goods','Hazardous chemicals','Refrigerated','Frozen','Temperature & humidity control'],ja:['一般貨物','保税貨物','重量貨物(1T以上)','大型貨物(2m以上)','危険物','有害化学物質','冷蔵','冷凍','恒温恒湿']},
+      temp:{ko:['-20℃ 이하','-10~-20℃','0~-10℃','0~5℃','5~10℃','10~20℃','상온'],en:['≤ -20℃','-10~-20℃','0~-10℃','0~5℃','5~10℃','10~20℃','Room temperature'],ja:['-20℃以下','-10~-20℃','0~-10℃','0~5℃','5~10℃','10~20℃','常温']},
+      humidity:{ko:['상온/특이사항 없음','60~70%','50~60%','50% 이하'],en:['No special requirement','60~70%','50~60%','Less than 50%'],ja:['特になし','60~70%','50~60%','50%以下']},
+      facilities:{ko:['랙','개별룸/별도구역','보안시설','온습도관리','지게차','창고관리시스템(WMS)'],en:['Rack','Separate room / area','Security facility','Temperature & humidity control','Forklift','Warehouse Management System'],ja:['ラック','個別エリア','セキュリティ施設','温湿度管理','フォークリフト','倉庫管理システム']},
+      importType:{ko:['해상수입','항공수입','국내입고','기타'],en:['Ocean import','Air import','Domestic inbound','Other'],ja:['海上輸入','航空輸入','国内入庫','その他']},
+      frequencyIn:{ko:['주 1~2회','주 3~4회','월 1~3회','월 4~6회','기타'],en:['1–2 times/week','3–4 times/week','1–3 times/month','4–6 times/month','Other'],ja:['週1~2回','週3~4回','月1~3回','月4~6回','その他']},
+      frequencyOut:{ko:['주 1~2회','주 3~4회','월 1~3회','월 4~6회','기타'],en:['1–2 times/week','3–4 times/week','1–3 times/month','4–6 times/month','Other'],ja:['週1~2回','週3~4回','月1~3回','月4~6回','その他']},
+      inboundMode:{ko:['컨테이너','화물차','직접운송'],en:['Container','Truck','Direct transportation'],ja:['コンテナ','トラック','直接運送']},
+      document:{ko:['E-mail','수입서류','Physical papers'],en:['E-mail','Import documents','Physical papers'],ja:['E-mail','輸入書類','紙書類']},
+      unit:{ko:['PCS 단위','BOX 단위','PLT 단위'],en:['PCS unit','BOX unit','PLT unit'],ja:['PCS単位','BOX単位','PLT単位']},
+      inspection:{ko:['품명','LOT No.','개수','데미지','SEAL No.','INVOICE','외관만 검수','개봉 및 내품확인'],en:['Product name','Lot No.','Quantity','Damage','Seal No.','Invoice','Outer appearance only','Open box and check actual cargo'],ja:['品名','LOT No.','個数','ダメージ','SEAL No.','INVOICE','外装のみ確認','開梱・内容確認']},
+      storage:{ko:['적재불가','2단 적재 가능','3단 적재 가능','랙보관','개봉하여 내품보관'],en:['Do not stack','Double stack possible','Triple stack possible','Rack storage','Open box and store actual cargo'],ja:['段積み不可','2段積み可能','3段積み可能','ラック保管','開梱して内容品保管']},
+      inventory:{ko:['NX 시스템 처리','고객사 별도 시스템 처리','엑셀 관리','불필요'],en:['NX system','Customer system','Excel management','Unnecessary'],ja:['NX在庫管理システム使用','お客様指定システム','Excel管理','不要']},
+      stocktaking:{ko:['매월','분기별','1년마다'],en:['Monthly','Quarterly','Annually'],ja:['毎月','四半期毎','1年毎']},
+      outboundOrder:{ko:['시스템','E-mail','고객사 별도시스템'],en:['System','E-mail','Customer system'],ja:['システム','E-mail','お客様利用システム']},
+      outboundWork:{ko:['PCS 단위','BOX 단위','PLT 단위','소분','재포장','유통가공','별도 PLT 필요','랩핑','라벨링'],en:['PCS packing','BOX packing','PLT packing','Apportionment','Repacking','Distribution processing','Separate PLT required','Wrapping','Labeling'],ja:['PCS単位','BOX単位','PLT単位','小分け','再梱包','流通加工','別途PLT要','ラッピング','ラベリング']},
+      dispatch:{ko:['퀵(오토바이/다마스)','택배','화물차 1톤','화물차 2.5톤','화물차 5톤','화물차 10톤','리프트','온도관리','무진동','20FT 컨테이너','40FT 컨테이너'],en:['Quick motorcycle/Damas','Parcel delivery','1 ton truck','2.5 ton truck','5 ton truck','10 ton truck','Lift','Temperature control','Vibration-free','20FT container','40FT container'],ja:['バイク便/軽貨物','宅配便','1トントラック','2.5トントラック','5トントラック','10トントラック','リフト','温度管理','エアサス','20FTコンテナ','40FTコンテナ']},
+      deliveryTerms:{ko:['사전 배차 등록','인수증/POD','납입시간 지정'],en:['Pre-dispatch registration','Receipt / POD','Specific delivery time'],ja:['事前配送連絡','POD','納入時間指定']},
+      requests:{ko:['전담작업자 배치','고객사 직원 상주','사무실 필요','통관대행','24시간 7일 대응','기타'],en:['Dedicated worker','Customer staff resident','Office required','Customs clearance','24/7 response','Other'],ja:['専属作業担当者配置','お客様駐在','事務所','通関代行','24時間7日対応','その他']}
+    };
+    let currentLang='ko';
+    const requiredInputs=()=>Array.from(document.querySelectorAll('[data-required]'));
+    const requiredGroups=()=>Array.from(document.querySelectorAll('[data-required-group]'));
+    function renderGroups(){
+      document.querySelectorAll('[data-group]').forEach(group=>{
+        const key=group.dataset.group;
+        group.innerHTML=(options[key][currentLang]||[]).map((item,idx)=>`<label class="check"><input type="checkbox" name="${key}" value="${item}"> <span>${item}</span></label>`).join('');
+      });
+    }
+    function translate(){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=i18n[currentLang][el.dataset.i18n]||el.textContent});
+      document.querySelectorAll('.req').forEach(el=>el.textContent=currentLang==='ko'?'필수':currentLang==='ja'?'必須':'Required');
+      document.getElementById('mailBtn').textContent=currentLang==='ko'?'상담 요청서 작성 완료':currentLang==='ja'?'入力完了':'Complete Inquiry Form';
+      document.getElementById('jsonBtn').textContent=currentLang==='ko'?'JSON 다운로드':currentLang==='ja'?'JSONダウンロード':'Download JSON';
+      document.querySelector('button[onclick="window.print()"]').textContent=currentLang==='ko'?'인쇄 / PDF 저장':currentLang==='ja'?'印刷 / PDF保存':'Print / Save PDF';
+      document.getElementById('resetBtn').textContent=currentLang==='ko'?'초기화':currentLang==='ja'?'リセット':'Reset';
+    }
+    function updateProgress(){
+      const inputDone=requiredInputs().filter(el=>String(el.value||'').trim()).length;
+      const groupDone=requiredGroups().filter(g=>g.querySelector('input:checked')).length;
+      const total=requiredInputs().length+requiredGroups().length;
+      const pct=total?Math.round(((inputDone+groupDone)/total)*100):0;
+      document.getElementById('completion').textContent=pct+'%';
+      document.getElementById('bar').style.width=pct+'%';
+    }
+    function collect(){
+      const data={language:currentLang,submittedAt:new Date().toISOString(),fields:{},checkboxes:{},uploadedFiles:[]};
+      document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="number"],textarea').forEach(el=>{data.fields[el.id]=el.value});
+      document.querySelectorAll('[data-group]').forEach(g=>{data.checkboxes[g.dataset.group]=Array.from(g.querySelectorAll('input:checked')).map(x=>x.value)});
+      const files=document.getElementById('cargoFiles').files;
+      data.uploadedFiles=Array.from(files).map(f=>({name:f.name,size:f.size,type:f.type,lastModified:f.lastModified}));
+      return data;
+    }
+    function downloadJson(){
+      const data=collect();
+      const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      const company=(document.getElementById('company').value||'customer').replace(/[\\/:*?"<>|]/g,'_');
+      a.href=url;a.download=`NX_Warehouse_Inquiry_${company}.json`;a.click();URL.revokeObjectURL(url);
+    }
+    function sendMail(){
+      const data=collect();
+      const subject=encodeURIComponent(`[Warehouse Inquiry] ${data.fields.company||'Customer'}`);
+      const body=encodeURIComponent(JSON.stringify(data,null,2));
+      location.href=`mailto:?subject=${subject}&body=${body}`;
+    }
+    function resetForm(){
+      if(!confirm(currentLang==='ko'?'입력 내용을 초기화할까요?':currentLang==='ja'?'入力内容をリセットしますか？':'Reset all inputs?')) return;
+      document.querySelectorAll('input[type="text"],input[type="email"],input[type="tel"],input[type="number"],textarea').forEach(el=>el.value='');
+      document.querySelectorAll('input[type="checkbox"]').forEach(el=>el.checked=false);
+      document.getElementById('cargoFiles').value='';
+      document.getElementById('fileList').style.display='none';
+      document.getElementById('fileList').innerHTML='';
+      updateProgress();
+    }
+    document.getElementById('lang').addEventListener('change',e=>{currentLang=e.target.value;renderGroups();translate();updateProgress();});
+    document.addEventListener('input',updateProgress);
+    document.addEventListener('change',updateProgress);
+    document.getElementById('cargoFiles').addEventListener('change',e=>{
+      const files=Array.from(e.target.files||[]);
+      const box=document.getElementById('fileList');
+      if(!files.length){box.style.display='none';box.innerHTML='';return;}
+      box.style.display='block';
+      box.innerHTML='<b>Uploaded files:</b><br>'+files.map(f=>`• ${f.name} (${Math.ceil(f.size/1024).toLocaleString()} KB)`).join('<br>');
+    });
+    document.getElementById('jsonBtn').addEventListener('click',downloadJson);
+    document.getElementById('mailBtn').addEventListener('click',sendMail);
+    document.getElementById('resetBtn').addEventListener('click',resetForm);
+    renderGroups();translate();updateProgress();
+  </script>
+</body>
+</html>
